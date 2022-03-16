@@ -32,7 +32,7 @@
     <div id="contenedor-vista">
       <div width="1024" height="1060" style="        width: 100%;
           width: 96%;
-          height: 656px;
+          height: 610px;
           margin-left: 146px;">
 
         <div class="alert alert-warning" role="alert">
@@ -66,7 +66,7 @@
     $('#contenedor-reporte').html(`      <div id="contenedor-vista">
       <iframe title="PowerBi" width="1024" height="1060" src="${$("#select").val()}" frameborder="0" allowFullScreen="true" style="
           width: 96%;
-          height: 642px;
+          height: 610px;
           margin-left: 146px;
     
       "></iframe>

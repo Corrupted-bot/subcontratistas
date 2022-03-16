@@ -13,8 +13,6 @@ class HomeController extends Controller
   {
     $viewData = $this->loadViewData();
 
-
-
     return view('welcome', $viewData);
   }
 }
