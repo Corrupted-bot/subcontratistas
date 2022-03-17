@@ -176,6 +176,7 @@
               <option value="618">618</option>
               <option value="619">619</option>
               <option value="901">901</option>
+              <option value="Externos">Externos</option>
             </select>
           </label>
           <label id="nombre_persona">
@@ -257,7 +258,7 @@
       $(".estilos").css("visibility", "visible")
       $.get(`api/user/${$(".centro_costo").val()}`, function(data, status) {
         $(".nombre_persona").html(`<option value="" selected disabled>Seleccionar Trabajador</option>`);
-
+        console.log(data)
         var datos = []
         for (x of data) {
           datos.push({

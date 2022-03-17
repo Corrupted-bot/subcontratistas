@@ -19,7 +19,7 @@ class PowerController extends Controller
         try {
             $viewData['userEmail'] = $viewData['userEmail'];
         } catch (\Throwable$th) {
-            return redirect("/signin");
+            return redirect("/");
         }
 
         // $graph = new Graph();
@@ -81,7 +81,7 @@ class PowerController extends Controller
         try {
             $viewData['userEmail'] = $viewData['userEmail'];
         } catch (\Throwable$th) {
-            return redirect("/signin");
+            return redirect("/");
         }
         return View("asignar", $viewData);
     }
@@ -93,7 +93,7 @@ class PowerController extends Controller
         try {
             $viewData['userEmail'] = $viewData['userEmail'];
         } catch (\Throwable$th) {
-            return redirect("/signin");
+            return redirect("/");
         }
         return View("crearReporte", $viewData);
     }
@@ -177,6 +177,12 @@ class PowerController extends Controller
 
     public function DatosUsuarios($cc)
     {
+        if($cc == "Externos"){
+            $datos = DB::table("usuarios")
+            ->get();
+            return $datos;
+
+        }
         $graph = new Graph();
         $objeto = new TokenCache();
         $graph->setAccessToken($objeto->getAccessToken());

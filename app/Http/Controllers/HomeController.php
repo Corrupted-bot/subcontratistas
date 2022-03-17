@@ -12,7 +12,12 @@ class HomeController extends Controller
   public function welcome()
   {
     $viewData = $this->loadViewData();
+    try {
+        $viewData['userEmail'] = $viewData['userEmail'];
+        return view('welcome', $viewData);
+    } catch (\Throwable$th) {
+        return redirect("/");
+    }
 
-    return view('welcome', $viewData);
   }
 }

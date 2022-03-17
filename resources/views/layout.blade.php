@@ -32,15 +32,27 @@
             <a href="/" class="nav-link {{$_SERVER['REQUEST_URI'] == '/' ? ' active' : ''}}">Home</a>
           </li>
           @if(isset($userName))
-          <li class="nav-item" data-turbolinks="false">
-            <a href="/crear/reporte" class="nav-link{{$_SERVER['REQUEST_URI'] == '/crear/reporte' ? ' active' : ''}}">Agregar Reporte</a>
-          </li>
-          <li class="nav-item" data-turbolinks="false">
-            <a href="/ver/reportes" class="nav-link{{$_SERVER['REQUEST_URI'] == '/ver/reportes' ? ' active' : ''}}">Reportes</a>
-          </li>
-          <li class="nav-item" data-turbolinks="false">
-            <a href="/asignar" class="nav-link{{$_SERVER['REQUEST_URI'] == '/asignar' ? ' active' : ''}}">Asignar</a>
-          </li>
+            @if($department == "Externo")
+
+              <li class="nav-item" data-turbolinks="false">
+                <a href="/ver/reportes" class="nav-link{{$_SERVER['REQUEST_URI'] == '/ver/reportes' ? ' active' : ''}}">Reportes</a>
+              </li>
+
+            @else
+
+              <li class="nav-item" data-turbolinks="false">
+                <a href="/crear/reporte" class="nav-link{{$_SERVER['REQUEST_URI'] == '/crear/reporte' ? ' active' : ''}}">Agregar Reporte</a>
+              </li>
+              <li class="nav-item" data-turbolinks="false">
+                <a href="/ver/reportes" class="nav-link{{$_SERVER['REQUEST_URI'] == '/ver/reportes' ? ' active' : ''}}">Reportes</a>
+              </li>
+              <li class="nav-item" data-turbolinks="false">
+                <a href="/asignar" class="nav-link{{$_SERVER['REQUEST_URI'] == '/asignar' ? ' active' : ''}}">Asignar</a>
+              </li>
+              <li class="nav-item" data-turbolinks="false">
+                <a href="/registrar" class="nav-link{{$_SERVER['REQUEST_URI'] == '/registrar' ? ' active' : ''}}">Registrar Usuario</a>
+              </li>
+            @endif
           @endif
         </ul>
         <ul class="navbar-nav justify-content-end">
@@ -59,7 +71,11 @@
               <p class="dropdown-item-text text-muted mb-0" style="width: 258px;">{{ $department }}</p>
 
               <div class="dropdown-divider"></div>
+              @if($department == "Externo")
+              <a href="/cerrar-sesion" class="dropdown-item">Cerrar Sesión</a>
+              @else
               <a href="/signout" class="dropdown-item">Cerrar Sesión</a>
+              @endif
             </div>
           </li>
           @else
