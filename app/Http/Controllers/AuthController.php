@@ -11,6 +11,12 @@ use Hash;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Redirect;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
+use View;
+use Illuminate\Support\Facades\Crypt;
+
 
 class AuthController extends Controller
 {
@@ -36,18 +42,26 @@ class AuthController extends Controller
     ->where("mail","=",$request->username)
     ->get();
 
-
-    if (Hash::check($request->password,$datos[0]->password )) {
-      session([
-        'userName' => $datos[0]->displayName,
-        'userEmail' => $datos[0]->mail,
-        'userTimeZone' => "Chile",
-        'department' => "Externo"
-      ]);
-      return redirect("/welcome");
-    } else {
-      return View("auth.login");
+    if(count($datos)==0){
+      Session::flash('message', "No existe el usuario ingresado.");
+      return Redirect::back();
+    }else{
+      if ($request->password == Crypt::decryptString($datos[0]->password) ) {
+        session([
+          'userName' => $datos[0]->displayName,
+          'userEmail' => $datos[0]->mail,
+          'userTimeZone' => "Chile",
+          'department' => "Externo"
+        ]);
+        return redirect("/welcome");
+      } else {
+        Session::flash('message', "La contraseña ingresada es incorrecta.");
+        return Redirect::back();
+      }
     }
+
+
+
 
   }
 
@@ -76,15 +90,63 @@ class AuthController extends Controller
   }
 
   public function registrarUsuario(Request $request){
+
+
+
+
     DB::table('usuarios')->insert([
                   'displayName' => $request->name,
                   'mail' => $request->correo,
-                  'password' => bcrypt($request->password),
+                  'password' => Crypt::encryptString($request->password),
               ]);
     Session::flash('message', "Se creo correctamente el usuario.");
     Session::flash('verificar', 1);
     return Redirect::back();
   }
+
+  public function recuperar(){
+    return View("auth.recuperar");
+  }
+
+  public function recuperar_pass(Request $request){
+
+    
+    $PASS = DB::table("usuarios")->where("mail","=",$request->email)->get();
+
+
+    if(count($PASS)>0){
+
+      $transport = new Swift_SmtpTransport('smtp.office365.com', 587, 'tls');
+      $transport->setUsername('noreply@jej.cl')->setPassword('Jejsa2021');
+  
+      $mailer = new Swift_Mailer($transport);
+  
+      $message = new Swift_Message('Recuperación de Contraseña');
+  
+      $view = View::make('notificacion',[
+        'password' => Crypt::decryptString($PASS[0]->password),
+    ]);
+  
+      $html = $view->render();
+  
+      $message
+          ->setFrom(['noreply@jej.cl' => 'Sistema de Reportes'])
+          ->setTo([$request->email => 'Solicitante'])
+          ->setSubject('Recuperación de Contraseña')
+          ->setBody($html, 'text/html');
+  
+      $result = $mailer->send($message);
+  
+  
+      Session::flash('message', "!Enhorabuena! Revisa tu casilla de correo electronico.");
+      return Redirect::back();
+    }else{
+      Session::flash('message', "No existe el correo solicitado.");
+      return Redirect::back();
+    }
+  }
+
+
 
 
 
@@ -120,11 +182,11 @@ class AuthController extends Controller
     if (!isset($expectedState)) {
       // If there is no expected state in the session,
       // do nothing and redirect to the home page.
-      return redirect('/welcome');
+      return redirect('/signin');
     }
 
     if (!isset($providedState) || $expectedState != $providedState) {
-      return redirect('/')
+      return redirect('/welcome')
         ->with('error', 'Invalid auth state')
         ->with('errorDetail', 'The provided auth state did not match the expected value');
     }

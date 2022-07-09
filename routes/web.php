@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\SubcontratistasController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,13 +22,10 @@ Route::get('/signout', 'App\Http\Controllers\AuthController@signout');
 
 //PAGINAS
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome');
-Route::get('/ver/reportes',"App\Http\Controllers\PowerController@index");
-Route::get('/crear/reporte',"App\Http\Controllers\PowerController@CrearReporte");
-Route::get('/asignar',"App\Http\Controllers\PowerController@Asignar");
 Route::get('/','App\Http\Controllers\AuthController@login');
 Route::get("/registrar",'App\Http\Controllers\AuthController@registrar');
-
-
+Route::get("/recuperar",'App\Http\Controllers\AuthController@recuperar');
+Route::post("/recuperar-pass",'App\Http\Controllers\AuthController@recuperar_pass');
 
 
 //BASE DE DATOS
@@ -35,10 +33,5 @@ Route::post('/iniciar-sesion', 'App\Http\Controllers\AuthController@IniciarSesio
 Route::get('/cerrar-sesion', 'App\Http\Controllers\AuthController@CerrarSesion');
 
 
-
-//API
-Route::get("/api/user/{cc}","App\Http\Controllers\PowerController@DatosUsuarios");
-Route::post("/api/add/reporte","App\Http\Controllers\PowerController@AgregarRegistro");
-Route::get("/api/add/asignar","App\Http\Controllers\PowerController@AsignarReportes");
-Route::get("/api/get/asignaciones/{correo}","App\Http\Controllers\PowerController@ObtenerAsignaciones");
-Route::post("/api/add/usuario","App\Http\Controllers\AuthController@registrarUsuario");
+Route::resource("/subcontratistas",SubcontratistasController::class);
+Route::resource("/contrato",ContratoController::class);
