@@ -212,11 +212,12 @@
           [7],
           [7]
         ],
+        "paging": false,
         dom: 'Bfrtip',
         buttons: [{
 
             title: 'Casos Ingresados',
-            text: '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearSubcontratista">Agregar Contrato <i class="fa-solid fa-plus"></i></button>',
+            text: '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearContrato">Agregar Contrato <i class="fa-solid fa-plus"></i></button>',
           }, 
           // {
           //   //Botón para Excel
@@ -260,11 +261,11 @@
           //   text: '<button class="btn btn-danger">Exportar a PDF <i class="fas fa-file-pdf"></i></button>',
           // },
 
-          {
-            extend: 'colvis',
-            columns: ':not(.noVis)',
+          // {
+          //   extend: 'colvis',
+          //   columns: ':not(.noVis)',
 
-          },
+          // },
 
         ],
       });

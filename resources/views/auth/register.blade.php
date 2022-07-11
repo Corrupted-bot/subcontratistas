@@ -6,7 +6,7 @@
     }
 </style>
 
-<div class="container">
+<div class="container mt-4">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card">
@@ -29,7 +29,7 @@
                             <input class="form-control" id="password" type="password" name="password" />
                         </div>
                         <button class="btn btn-primary btn-block login-button" style="background-color: #007da9;
-    border-color: #000000;" type="submit"><i class="fa fa-sign-in"></i>Registrar</button>
+    border-color: #000000;" type="submit"> Registrar <i class="fa fa-sign-in"></i></button>
                     </form>
                 </div>
                 @if(Session::has('message'))

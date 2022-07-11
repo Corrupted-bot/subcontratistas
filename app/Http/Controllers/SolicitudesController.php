@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contrato;
-use App\Models\Subcontratista;
+use App\Models\Solicitud;
 use Illuminate\Http\Request;
 
-class ContratoController extends Controller
+class SolicitudesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,11 +35,13 @@ class ContratoController extends Controller
      */
     public function store(Request $request)
     {
-        $contrato = new Contrato();
-        $contrato->nombre = $request->nombre;
-        $contrato->id_subcontratista = $request->id_subcontratista;
-        $contrato->save();
-        return redirect("/contrato/".$request->id_subcontratista);
+        $solicitud = new Solicitud();
+        $solicitud->estado = 0;
+        $solicitud->fecha_cierre = $request->fecha;
+        $solicitud->id_contrato = $request->id_contrato;
+        $solicitud->save();
+
+        return $request->all();
     }
 
     /**
@@ -51,17 +52,9 @@ class ContratoController extends Controller
      */
     public function show($id)
     {
-
-        $viewData = $this->loadViewData();
-        try {
-            $viewData['userEmail'] = $viewData['userEmail'];
-            $contratos = Contrato::where("id_subcontratista",$id)->get();
-            $subcontratista = Subcontratista::find($id);
-            return View("contrato",$viewData)->with("contratos",$contratos)->with("subcontratista",$subcontratista);
-        } catch (\Throwable$th) {
-            return redirect("/");
-        }
-
+        $solicitudes = Solicitud::where("id_contrato",$id)->get();
+        $solicitudes = ["data" => $solicitudes];
+        return $solicitudes;
     }
 
     /**
@@ -97,8 +90,4 @@ class ContratoController extends Controller
     {
         //
     }
-
-
-
-
 }

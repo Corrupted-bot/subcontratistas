@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\SubcontratistasController;
+use App\Http\Controllers\SolicitudesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,10 +23,10 @@ Route::get('/signout', 'App\Http\Controllers\AuthController@signout');
 
 //PAGINAS
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome');
-Route::get('/','App\Http\Controllers\AuthController@login');
-Route::get("/registrar",'App\Http\Controllers\AuthController@registrar');
-Route::get("/recuperar",'App\Http\Controllers\AuthController@recuperar');
-Route::post("/recuperar-pass",'App\Http\Controllers\AuthController@recuperar_pass');
+Route::get('/', 'App\Http\Controllers\AuthController@login');
+Route::get("/registrar", 'App\Http\Controllers\AuthController@registrar');
+Route::get("/recuperar", 'App\Http\Controllers\AuthController@recuperar');
+Route::post("/recuperar-pass", 'App\Http\Controllers\AuthController@recuperar_pass');
 
 
 //BASE DE DATOS
@@ -33,5 +34,6 @@ Route::post('/iniciar-sesion', 'App\Http\Controllers\AuthController@IniciarSesio
 Route::get('/cerrar-sesion', 'App\Http\Controllers\AuthController@CerrarSesion');
 
 
-Route::resource("/subcontratistas",SubcontratistasController::class);
-Route::resource("/contrato",ContratoController::class);
+Route::resource("/subcontratistas", SubcontratistasController::class);
+Route::resource("/contrato", ContratoController::class);
+Route::resource("/solicitudes", SolicitudesController::class);
