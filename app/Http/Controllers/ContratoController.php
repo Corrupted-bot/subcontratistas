@@ -98,6 +98,20 @@ class ContratoController extends Controller
         //
     }
 
+    public function contratoExterno()
+    {
+
+        $viewData = $this->loadViewData();
+        try {
+            $viewData['userEmail'] = $viewData['userEmail'];
+            $contratos = Contrato::where("id_subcontratista",$viewData['department'])->get();
+            $subcontratista = Subcontratista::find($viewData['department']);
+            return View("contratoExterno",$viewData)->with("contratos",$contratos)->with("subcontratista",$subcontratista);
+        } catch (\Throwable$th) {
+            return redirect("/");
+        }
+
+    }
 
 
 

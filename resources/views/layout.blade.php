@@ -46,13 +46,13 @@
         <ul class="navbar-nav mr-auto">
           <!-- mx-auto -->
           <li class="nav-item">
-            <a href="/" class="nav-link {{$_SERVER['REQUEST_URI'] == '/' ? ' active' : ''}}">Home</a>
+            <a href="/" class="nav-link {{$_SERVER['REQUEST_URI'] == '/' ? ' active' : ''}}">Inicio</a>
           </li>
           @if(isset($userName))
-          @if($department == "Externo")
+          @if(is_numeric($department))
 
           <li class="nav-item" data-turbolinks="false">
-            <a href="/ver/reportes" class="nav-link{{$_SERVER['REQUEST_URI'] == '/ver/reportes' ? ' active' : ''}}">Externo</a>
+            <a href="/contratos/subcontratista" class="nav-link{{$_SERVER['REQUEST_URI'] == '/contratos/subcontratista' ? ' active' : ''}}">Estados de Pago</a>
           </li>
 
           @else
@@ -80,10 +80,15 @@
             <div class="dropdown-menu dropdown-menu-right">
               <h5 class="dropdown-item-text mb-0">{{ $userName }}</h5>
               <p class="dropdown-item-text text-muted mb-0">{{ $userEmail }}</p>
+              @if(is_numeric($department))
+              <p class="dropdown-item-text text-muted mb-0" style="width: 258px;"><?php $usuario = DB::table("subcontratistas")->where("id",$department)->get();
+              print_r($usuario[0]->razon_social);
+              ?></p>
+              @else
               <p class="dropdown-item-text text-muted mb-0" style="width: 258px;">{{ $department }}</p>
-
+              @endif
               <div class="dropdown-divider"></div>
-              @if($department == "Externo")
+              @if(is_numeric($department))
               <a href="/cerrar-sesion" class="dropdown-item">Cerrar Sesión</a>
               @else
               <a href="/signout" class="dropdown-item">Cerrar Sesión</a>

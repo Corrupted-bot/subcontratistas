@@ -37,7 +37,8 @@ class SolicitudesController extends Controller
     {
         $solicitud = new Solicitud();
         $solicitud->estado = 0;
-        $solicitud->fecha_cierre = $request->fecha;
+        $solicitud->fecha_cierre = $request->fecha_cierre;
+        $solicitud->fecha_inicio = $request->fecha_inicio;
         $solicitud->id_contrato = $request->id_contrato;
         $solicitud->save();
 

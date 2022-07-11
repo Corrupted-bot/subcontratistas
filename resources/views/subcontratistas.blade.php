@@ -11,6 +11,11 @@
         color: white;
     }
 </style>
+<style>
+    .login-button:hover {
+        background-color: #000000 !important;
+    }
+</style>
 @section('content')
 <div class="container-xxl mt-4">
     <div class="card">
@@ -45,7 +50,16 @@
                         <td>{{$subcontratista->correo}}</td>
                         <td>{{$subcontratista->persona_jej}}</td>
                         <td>{{$subcontratista->disciplina}}</td>
-                        <td><a class="btn btn-secondary" href="/contrato/{{$subcontratista->id}}">Mostrar Contratos</a></td>
+                        <td>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a class="btn btn-secondary me-md-2" href="/contrato/{{$subcontratista->id}}">Mostrar Contratos</a>
+                                @if(count(DB::table("usuarios")->where("id_subcontratista",$subcontratista->id)->get())>0)
+                                <button type="button" class="fa-solid fa-user-plus btn btn-success fa-2x" style="align-self: center;" disabled></button>
+                                @else
+                                <i type="button" class="fa-solid fa-user-plus btn btn-success fa-2x" style="align-self: center;" data-bs-toggle="modal" data-bs-target="#modalCrearCuenta" onclick="CambiarID({{$subcontratista->id}})"></i>
+                                @endif
+                            </div>
+                        </td>
 
                     </tr>
                     @endforeach
@@ -114,5 +128,44 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="modalCrearCuenta" tabindex="-1" aria-labelledby="modalCrearCuentaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCrearCuentaLabel">Agregar Subcontratista</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
+            <form method="POST" action="/api/add/usuario">
+                @csrf
+                <div class="modal-body">
+                    <input id="id_subcontratista" name="id_subcontratista" hidden>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo_usuario" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="correo_usuario" name="correo_usuario">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input class="form-control" id="password" type="password" name="password" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function CambiarID(id) {
+        $("#id_subcontratista").val(id)
+        // console.log($("#id_subcontratista").val())
+    }
+</script>
 @endsection

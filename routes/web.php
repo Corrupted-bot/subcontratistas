@@ -32,8 +32,13 @@ Route::post("/recuperar-pass", 'App\Http\Controllers\AuthController@recuperar_pa
 //BASE DE DATOS
 Route::post('/iniciar-sesion', 'App\Http\Controllers\AuthController@IniciarSesion');
 Route::get('/cerrar-sesion', 'App\Http\Controllers\AuthController@CerrarSesion');
+Route::get('/contratos/subcontratista', 'App\Http\Controllers\ContratoController@contratoExterno');
 
 
 Route::resource("/subcontratistas", SubcontratistasController::class);
 Route::resource("/contrato", ContratoController::class);
 Route::resource("/solicitudes", SolicitudesController::class);
+
+
+//API
+Route::post("/api/add/usuario","App\Http\Controllers\AuthController@registrarUsuario");

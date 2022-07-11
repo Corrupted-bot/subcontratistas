@@ -47,11 +47,12 @@ class AuthController extends Controller
       return Redirect::back();
     }else{
       if ($request->password == Crypt::decryptString($datos[0]->password) ) {
+        
         session([
           'userName' => $datos[0]->displayName,
           'userEmail' => $datos[0]->mail,
           'userTimeZone' => "Chile",
-          'department' => "Externo"
+          'department' => $datos[0]->id_subcontratista
         ]);
         return redirect("/welcome");
       } else {
@@ -96,8 +97,9 @@ class AuthController extends Controller
 
     DB::table('usuarios')->insert([
                   'displayName' => $request->name,
-                  'mail' => $request->correo,
+                  'mail' => $request->correo_usuario,
                   'password' => Crypt::encryptString($request->password),
+                  'id_subcontratista' => $request->id_subcontratista,
               ]);
     Session::flash('message', "Se creo correctamente el usuario.");
     Session::flash('verificar', 1);

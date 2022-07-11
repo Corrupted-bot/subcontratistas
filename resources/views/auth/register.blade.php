@@ -1,4 +1,11 @@
 @extends('layout')
+
+
+<?php
+
+use App\Models\Subcontratista;
+
+ $subcontratista = Subcontratista::find($_GET['subcontratista']);?>
 @section('content')
 <style>
     .login-button:hover {
@@ -28,8 +35,7 @@
                             <label for="password" class="form-label">Contraseña</label>
                             <input class="form-control" id="password" type="password" name="password" />
                         </div>
-                        <button class="btn btn-primary btn-block login-button" style="background-color: #007da9;
-    border-color: #000000;" type="submit"> Registrar <i class="fa fa-sign-in"></i></button>
+                        <button class="btn btn-primary btn-block login-button" style="background-color: #007da9;border-color: #000000;" type="submit"> Registrar <i class="fa fa-sign-in"></i></button>
                     </form>
                 </div>
                 @if(Session::has('message'))

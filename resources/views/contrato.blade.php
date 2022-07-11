@@ -105,7 +105,7 @@
                                 <thead style="background-color: #3c8dbc !important;color: white;">
                                     <tr>
                                         <th>Id</th>
-                                        <th>Fecha de Creación</th>
+                                        <th>Fecha de Inicio</th>
                                         <th>Fecha de Cierre</th>
                                         <th>Estado</th>
                                         <th></th>
@@ -162,7 +162,11 @@
                     <input id="id_contrato" name="id_contrato" value="" hidden>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="fecha" class="form-label">Fecha de Cierre</label>
+                            <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_cierre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="fecha_cierre" class="form-label">Fecha de Cierre</label>
                             <input type="date" class="form-control" id="fecha_cierre" name="fecha_cierre">
                         </div>
 
@@ -334,7 +338,8 @@
                 var token = '{{ csrf_token() }}';
                 var data = {
                     id_contrato: $("#id_contrato").val(),
-                    fecha: $("#fecha_cierre").val(),
+                    fecha_inicio: $("#fecha_inicio").val(),
+                    fecha_cierre: $("#fecha_cierre").val(),
                     _token: token
                 };
                 $.ajax({
@@ -350,6 +355,7 @@
                 });
                 event.preventDefault();
                 $("#fecha_cierre").val("");
+                $("#fecha_inicio").val("");
                 $('#modalsolicitud').modal('hide');
             });
         });
@@ -401,10 +407,11 @@
                         "data": null,
                         render: function(data, type, row, meta) {
                             // console.log(data.revocado)
-                            var d = new Date(data.created_at);
+                            var d = new Date(data.fecha_inicio);
                             var datestring = (d.getDate() + 1) + "-" + (d.getMonth() + 1) + "-" + d
                                 .getFullYear();
-                            return datestring;
+                                
+                            return data.fecha_inicio;
 
                         }
                     }, {
@@ -414,7 +421,7 @@
                             var d = new Date(data.fecha_cierre);
                             var datestring = (d.getDate() + 1) + "-" + (d.getMonth() + 1) + "-" + d
                                 .getFullYear();
-                            return datestring;
+                            return data.fecha_cierre;
 
                         }
                     }, {
